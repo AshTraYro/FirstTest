@@ -32,6 +32,7 @@ Game::Game( MainWindow& wnd )
 	goal(rng,brd,snek)
 
 {
+	//Look at this modification
 }
 
 void Game::Go()
