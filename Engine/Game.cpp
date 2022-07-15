@@ -22,6 +22,7 @@
 #include "Game.h"
 #include "SpriteCodex.h"
 
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -45,6 +46,8 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float dt = ft.Mark();
+
 	if (gameIsStarted)
 	{
 		if (!gameIsOver)
@@ -69,10 +72,10 @@ void Game::UpdateModel()
 				delta_loc = { 1,0 };
 			}
 
-			snekMoveCounter++;
+			snekMoveCounter += dt;
 			if (snekMoveCounter >= snekMovePeriod)
 			{
-				snekMoveCounter = 0;
+				snekMoveCounter -= snekMovePeriod;
 				const Location next = snek.GetNextHeadLocation(delta_loc);
 				if (!brd.IsInsideBoard(next) ||
 					snek.IsInTile(next))
@@ -95,12 +98,7 @@ void Game::UpdateModel()
 					}
 				}
 			}
-			snekSpeedUpCounter++;
-			if (snekSpeedUpCounter >= snekSpeedUpPeriod)
-			{
-				snekSpeedUpCounter = 0;
-				snekMovePeriod = std::max(snekMovePeriod-1,snekMovePeriod);
-			}
+			snekMovePeriod = std::max(snekMovePeriod-dt*snekSpeedUpFactor,snekMovePeriodMin);
 		}
 	}
 	else

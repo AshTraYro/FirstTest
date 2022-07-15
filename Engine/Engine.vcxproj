@@ -144,6 +144,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="MainWindow.h" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DXErr.cpp" />
+    <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="Graphics.cpp" />
