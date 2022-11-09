@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Location.h"
+#include <random>
 
 class Board
 {
@@ -12,8 +13,13 @@ public:
 	int GetGridHeight() const;
 	bool IsInsideBoard(const Location& loc) const;
 	void DrawBoarder();
-private:
+	bool checkForObstacles(const Location& loc) const;
+	void SpawnObstacles(std::mt19937& rng, const class Snake& snake, const class Goal& goal);
+	void DrawObstacle();
+	
 
+private:
+	
 	static constexpr int dimension = 20;
 	static constexpr int width = 25;
 	static constexpr int height = 25;
@@ -23,6 +29,8 @@ private:
 	static constexpr int borderPadding = 2;
 	static constexpr int cellPadding = 1;
 	static constexpr Color boardColor = Colors::Magenta;
+	static constexpr Color obstacleColor = Colors::Gray;
+	bool hasObstacles[height * width] = { false };
 
 	Graphics& gfx;
 };
