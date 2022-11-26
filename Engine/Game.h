@@ -25,7 +25,6 @@
 #include "Graphics.h"
 #include "Board.h"
 #include "Snake.h"
-#include "Goal.h"
 #include <random>
 #include "FrameTimer.h"
 
@@ -56,7 +55,6 @@ private:
 	Location left = { -1,0 };
 	Location right = { 1,0 };
 	std::mt19937 rng;
-	Goal goal;
 	static constexpr float snekMovePeriodMin = 0.07f;
 	float snekMovePeriod = 0.4f;
 	float snekMoveCounter = 0.0f;

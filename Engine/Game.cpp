@@ -29,11 +29,15 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd(gfx),
 	rng( std::random_device ()() ),
-	snek({2,2}),
-	goal(rng,brd,snek)
+	snek({2,2})
 
 {
 	//Look at this modification
+	for (int i = 0; i < (brd.GetGridHeight()* brd.GetGridWidth() / 4);i++)
+	{
+		brd.SpawnContent(rng, snek, Board::CellContent::poison);
+	}
+	brd.SpawnContent(rng, snek, Board::CellContent::food);
 }
 
 void Game::Go()
@@ -79,25 +83,28 @@ void Game::UpdateModel()
 				const Location next = snek.GetNextHeadLocation(delta_loc);
 				if (!brd.IsInsideBoard(next) ||
 					snek.IsInTile(next) ||
-					brd.checkForObstacles(next))
+					brd.CheckCellContent(next)==Board::CellContent::obstacle)
 				{
 					gameIsOver = true;
 				}
 
-				else
-				{
-					if (next == goal.GetLocation())
+				else if (brd.CheckCellContent(next) == Board::CellContent::poison)
+					{
+						brd.EmptyCellContent(next);
+						snek.MoveBy(delta_loc);
+					}
+				else if (brd.CheckCellContent(next) == Board::CellContent::food)
 					{
 						snek.Grow();
 						snek.MoveBy(delta_loc);
-						goal.Respawn(rng, brd, snek);
-						brd.SpawnObstacles(rng, snek, goal);
+						brd.EmptyCellContent(next);
+						brd.SpawnContent(rng,snek,Board::CellContent::food);
+						brd.SpawnContent(rng, snek, Board::CellContent::obstacle);
 					}
 					else 
 					{
 						snek.MoveBy(delta_loc);
 					}
-				}
 			}
 			snekMovePeriod = std::max(snekMovePeriod-dt*snekSpeedUpFactor,snekMovePeriodMin);
 		}
@@ -114,9 +121,8 @@ void Game::ComposeFrame()
 	{
 	
 		snek.Draw(brd);
-		goal.Draw(brd);
 		brd.DrawBoarder();
-		brd.DrawObstacle();
+		brd.DrawCellContent();
 		if (gameIsOver)
 		{
 			SpriteCodex::DrawGameOver(310, 250, gfx);

@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include "Snake.h"
@@ -15,3 +16,4 @@ private:
 	static constexpr Color c = Colors::Red;
 	Location loc;
 };
+*/

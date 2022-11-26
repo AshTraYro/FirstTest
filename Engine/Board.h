@@ -7,16 +7,24 @@
 class Board
 {
 public:
+	enum class CellContent
+	{
+		empty,
+		food,
+		obstacle,
+		poison
+	};
+public:
 	Board(Graphics& gfx);
 	void DrawCell(const Location& loc, Color c);
 	int GetGridWidth() const;
 	int GetGridHeight() const;
 	bool IsInsideBoard(const Location& loc) const;
 	void DrawBoarder();
-	bool checkForObstacles(const Location& loc) const;
-	void SpawnObstacles(std::mt19937& rng, const class Snake& snake, const class Goal& goal);
-	void DrawObstacle();
-	
+	CellContent CheckCellContent(const Location& loc) const;
+	void EmptyCellContent(const Location& loc);
+	void SpawnContent(std::mt19937& rng, const class Snake& snake, CellContent Content);
+	void DrawCellContent();	
 
 private:
 	
@@ -29,8 +37,10 @@ private:
 	static constexpr int borderPadding = 2;
 	static constexpr int cellPadding = 1;
 	static constexpr Color boardColor = Colors::Magenta;
+	static constexpr Color foodColor = Colors::Red;
 	static constexpr Color obstacleColor = Colors::Gray;
-	bool hasObstacles[height * width] = { false };
+	static constexpr Color poisonColor = Colors::Magenta;
+	CellContent ContentOfCells[height * width] = { CellContent::empty };
 
 	Graphics& gfx;
 };

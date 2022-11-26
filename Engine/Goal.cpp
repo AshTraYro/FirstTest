@@ -1,3 +1,4 @@
+/*
 #include "Goal.h"
 
 Goal::Goal(std::mt19937& rng, const Board& brd, const Snake& snake)
@@ -14,7 +15,7 @@ void Goal::Respawn(std::mt19937& rng, const Board& brd, const Snake& snake)
 	{
 		newLoc.x = xDist(rng);
 		newLoc.y = yDist(rng);
-	} while (snake.IsInTileAll(newLoc));
+	} while (snake.IsInTileAll(newLoc) || brd.checkForPoison(newLoc));
 
 	loc = newLoc;
 
@@ -29,3 +30,4 @@ const Location& Goal::GetLocation() const
 {
 	return loc;
 }
+*/
